@@ -1,0 +1,17 @@
+# Secrets — the real env lives in ~/.executor.env, never in the repo.
+.executor.env
+*.env
+!.executor.env.example
+
+# Runtime / cron output
+state/pulse.log
+state/last_pulse.json
+state/.pulse.lock
+
+# Live trade proposals are operational state, not source. The directory is tracked
+# (via .gitkeep) but the proposals inside it are not.
+state/pending/*.json
+
+# Python
+__pycache__/
+*.pyc

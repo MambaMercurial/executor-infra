@@ -1,0 +1,29 @@
+{
+  "account_value": 200.0,
+  "peak_value": 200.0,
+  "day_start_value": 200.0,
+  "moonshot_sleeve_value": 40.0,
+  "core_sleeve_value": 160.0,
+  "dry_powder": 87.0,
+  "logged_trades": 3,
+  "positions": [
+    {
+      "id": "t001", "symbol": "BRK.B", "sleeve": "core",
+      "notional": 50.0, "entry_ref": 499.79, "qty_est": 0.1000,
+      "stop": 440.0, "target": null, "thesis": "Quality anchor; ~$400B cash = cushion + correction call option",
+      "opened": "2026-07-02", "status": "queued_at_open"
+    },
+    {
+      "id": "t002", "symbol": "XLV", "sleeve": "core",
+      "notional": 50.0, "entry_ref": 159.11, "qty_est": 0.3142,
+      "stop": 143.60, "target": null, "thesis": "Laggard rotation + defensive healthcare; holds if Aug-Oct bites",
+      "opened": "2026-07-02", "status": "queued_at_open"
+    },
+    {
+      "id": "t003", "symbol": "GDX", "sleeve": "moonshot",
+      "notional": 13.0, "entry_ref": 74.90, "qty_est": 0.1736,
+      "stop": 60.0, "target": 95.0, "thesis": "Contrarian: gold dumped on peace hopes; inflation 4.2% structural story intact",
+      "opened": "2026-07-02", "status": "queued_at_open"
+    }
+  ]
+}

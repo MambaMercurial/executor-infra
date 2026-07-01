@@ -1,0 +1,4 @@
+{
+  "unsettled_symbols": [],
+  "note": "Symbols bought with unsettled funds. Selling one now risks a good-faith violation on a cash account. risk_check.py blocks sells of any symbol listed here. Update after each buy/settlement (T+1 for equities)."
+}
