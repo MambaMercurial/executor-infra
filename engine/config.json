@@ -1,0 +1,65 @@
+{
+  "poll_seconds": 90,
+  "universe": ["SPY", "QQQ", "IWM", "SMH", "XLE", "XLV", "XLU", "CEG", "VST", "NRG", "POWL", "GEV", "ETN", "PWR", "CCJ", "TLN"],
+  "spread_bps": {"default": 6, "SPY": 2, "QQQ": 2, "POWL": 15, "TLN": 12, "GEV": 8, "CCJ": 8},
+  "account_number": "692261530",
+  "books": {
+    "meanrev": {
+      "live": false,
+      "universe": ["SPY", "QQQ", "SMH", "XLE", "XLV", "XLU"],
+      "paper_start_cash": 2000.0,
+      "paper_notional": 50.0,
+      "live_notional": 15.0,
+      "live_alloc": 60.0,
+      "max_open": 3,
+      "params": {
+        "z_entry": -1.5,
+        "z_exit": 0.0,
+        "ret_days": 2,
+        "lookback_days": 60,
+        "sma_trend_days": 200,
+        "stop_pct": 0.08,
+        "time_stop_days": 10,
+        "entry_window_et": ["15:30", "15:55"]
+      },
+      "evidence_prior": "Connors RSI(2)/z-score long-only on index ETFs above 200-SMA: historically 60-70% win, ~10-35bps/trade net post-2018 decay. Tight stops demonstrably hurt this class - the 200-SMA filter IS the risk control; stop_pct is a disaster stop only."
+    },
+    "tom": {
+      "live": false,
+      "paper_start_cash": 2000.0,
+      "paper_notional": 100.0,
+      "live_notional": 40.0,
+      "live_alloc": 45.0,
+      "max_open": 1,
+      "params": {
+        "symbol": "SPY",
+        "entry_days_before_eom": 2,
+        "exit_trading_day_of_month": 3,
+        "stop_pct": 0.05,
+        "entry_window_et": ["15:30", "15:55"]
+      },
+      "evidence_prior": "Turn-of-the-month on S&P: last ~2 trading days through first ~3 of next month. Only calendar effect still statistically significant in 1980-2024 samples; ~65% win, honest 20-50bps net per monthly window. 12 events/yr - runs on the 45-year prior, not on live sample."
+    }
+  },
+  "graduation": {
+    "min_paper_events": 20,
+    "sanity_expectancy_bps_floor": -20.0,
+    "note": "Paper phase proves IMPLEMENTATION (rule compliance, slippage vs model), not edge - a 20bps edge is statistically undetectable at retail N. Graduate when: enough events to trust the plumbing, expectancy not deeply negative (bug detector), and the strategy has a documented evidence_prior. Live sizing then assumes edge ~= prior, risk sized as if edge = 0."
+  },
+  "risk": {
+    "equity_floor": 150.0,
+    "daily_loss_halt_pct": 0.03,
+    "daily_loss_flatten_pct": 0.05,
+    "peak_dd_flatten_pct": 0.10,
+    "per_trade_max_loss_pct": 0.07,
+    "max_live_orders_per_day": 6,
+    "max_live_positions": 5
+  },
+  "runs": {
+    "premarket_et": "09:00",
+    "postmarket_et": "16:15",
+    "weekly_dow": 4
+  },
+  "holidays_2026": ["2026-01-01", "2026-01-19", "2026-02-16", "2026-04-03", "2026-05-25", "2026-06-19", "2026-09-07", "2026-11-26", "2026-12-25"],
+  "early_close_2026": ["2026-07-03", "2026-11-27", "2026-12-24"]
+}

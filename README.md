@@ -1,106 +1,84 @@
 # executor-infra
 
-An agentic investing repo for Claude Code. **The LLM proposes; deterministic code and a human decide.** Charter v3.0 — sicko mode: daily hunting, midday scans, a permanently loaded pipeline — with every hard rail exactly where it was.
+**The Executor v4.0 — a baby-Medallion apparatus, honestly scoped.** Fully autonomous: deterministic Python trades and gates, LLM runs research and journal, an adversarial skeptic kills bad discretionary trades, and the operator holds a veto they never need to use. No approval taps. Paper engine measures at unlimited cadence; live dollars follow proof.
 
 ```
 executor-infra/
-├── CLAUDE.md                   # THE CHARTER (v3.0) — auto-loaded every Claude Code run
-├── journal.md                  # trade log + learning loop
-├── Dockerfile                  # Railway cron image
-├── railway.json                # Railway config-as-code (cron schedule)
-├── .executor.env.example       # copy to ~/.executor.env for local/VPS runs
-├── docs/
-│   ├── 00_MASTER_2026-08-04.md # archival source-of-truth compilation (as imported)
-│   ├── 01_PRINCIPLES.md        # operating constitution + survival math
-│   ├── 02_DRL_OVERLAY.md       # the Milione amendment
-│   └── 03_OPS_NOTES.md         # Robinhood MCP quirks, account state, cadence
-├── prompts/
-│   ├── morning_pulse.md        # the daily headless job
-│   ├── midday_scan.md          # the daily hunt run — keeps the pipeline loaded
-│   └── weekly_review.md        # the substantive weekly session
+├── CLAUDE.md                    # THE CHARTER v4.0 — the operative law
+├── engine/                      # FAST LOOP — deterministic, always-on
+│   ├── daemon.py                #   scheduler: polls, signals, gates, dispatch
+│   ├── ledger.py                #   settlement law: settled-cash buys, GFV-impossible
+│   ├── risk.py                  #   kill switches, breakers, caps — THE gate
+│   ├── paper.py                 #   unbounded paper books + graduation bar
+│   ├── quotes.py                #   yfinance feed (signals only; broker is truth)
+│   ├── signals/meanrev.py       #   z-score dips, 200-SMA regime filter
+│   ├── signals/tom.py           #   turn-of-the-month on SPY
+│   ├── config.json              #   books, params, caps, calendar — versioned here
+│   └── tests/test_engine.py     #   27-case self-test of every wall
+├── prompts/                     # SLOW LOOP — LLM runs (daemon-invoked, capped)
+│   ├── premarket.md             #   reconcile broker↔ledger, discretionary 2-gate
+│   ├── postmarket.md            #   measurement, kill-criteria, journaling
+│   ├── weekly_review.md         #   the learning loop
+│   ├── execute_order.md         #   zero-discretion order bridge (haiku)
+│   └── skeptic.md               #   adversarial 2nd gate for discretionary trades
 ├── scripts/
-│   ├── risk_check.py           # hard caps enforced in CODE, not prompts
-│   ├── test_risk_check.py      # self-test proving the gate actually gates
-│   ├── telegram.py             # propose / wait-for-YES / send
-│   ├── preflight.sh            # one-shot readiness check before you arm cron
-│   ├── morning_pulse.sh        # pulse runner (takes a prompt file; cron/Railway both use it)
-│   └── railway_pulse.sh        # Railway container entrypoint
-└── state/
-    ├── positions.json          # the live book (verified flat: $198.74 cash)
-    ├── settlement.json         # unsettled-funds guard for the cash account
-    └── pending/                # proposals awaiting approval
+│   ├── run_daemon.sh            #   container entrypoint (volume, MCP, daemon)
+│   ├── execute_order.sh         #   bridge wrapper ($0.40 cap)
+│   ├── adversarial_check.sh     #   skeptic wrapper ($0.75 cap)
+│   ├── risk_check.py            #   discretionary deterministic gate (+ self-test)
+│   └── telegram.py              #   manual send utility
+├── docs/                        # 00 master archive · 01 principles · 02 DRL
+│                                # 03 ops · 04 AUTONOMY DESIGN · 05 RESEARCH NOTES
+└── state/                       # ledger, engine state, paper books, pending,
+                                 # orders outbox/results — lives on /data volume
 ```
 
-## The execution path (why this can't rug you)
+## How an order happens (no humans involved)
 
-```
-LLM proposes
-  → risk_check.py  (deterministic: 7% cap, sleeve caps, circuit breakers, recomputed
-                    max loss, settlement guard) must print PASS
-  → Telegram proposal sent to you
-  → you reply `YES t004`
-  → only then is the order placed via the Robinhood MCP
-  → journaled
-```
+**Systematic:** coded signal → `risk.py` gate (floor, breakers, caps) → `ledger.py` (settled cash / GFV law) → haiku bridge places via Robinhood MCP → Telegram notified → journaled.
 
-Any FAIL, any NO, or 30 minutes of silence = no trade. **Two independent gates, one of which is you.** The validator recomputes max loss itself rather than trusting the agent's arithmetic — the caps live in code so they cannot be talked around.
+**Discretionary:** LLM proposal in `state/pending/` → `risk_check.py` PASS → adversarial skeptic CONCUR (separate hostile LLM whose job is to refute) → premarket run places → notified → journaled.
 
-Where the aggression lives instead: tempo. Two scheduled runs per trading day (pulse + hunt), 2–5 pre-underwritten candidates always sitting in `state/pending/`, and same-run SELL proposals the moment a thesis breaks. High-frequency *underwriting*, not high-frequency orders — a cash account with T+1 settlement and a human gate physically cannot be an HFT shop, and the system doesn't pretend otherwise.
+**Operator veto (Telegram, anytime):** `HALT` · `RESUME` · `FLAT` · `STATUS`. Silence = system runs. That's the design.
 
-## Verify the build (no account or secrets needed)
+## The honest math (see docs/04 + 05)
 
-```
-python3 scripts/test_risk_check.py     # the gate self-test: caps bite, exits stay open
-```
+- Live cadence is settlement-physics-bounded: the bankroll cycles once per business day (~5 round trips/tranche/week at $200). Unlimited cadence lives in the **paper engine**, which is the measurement machine.
+- No system delivers "profit every day" — the target is positive expectancy × throughput × compounding, measured net of costs, with pre-registered kill criteria.
+- Books start in **paper**. Graduation to live is code-decided (≥20 clean events + evidence prior); live sizing assumes edge = 0. The LLM may de-risk autonomously, never up-risk.
 
-Once Telegram secrets exist, run `./scripts/preflight.sh` before arming any schedule.
-
-## Deploy on Railway (the chosen always-on host)
-
-1. Move this to its own repo (see below), connect it to a new Railway project.
-2. `railway.json` builds the Dockerfile and sets the cron: **13:15 UTC weekdays = 9:15am ET** morning pulse. Add a **second service** on the same repo for the midday hunt with `PULSE_PROMPT=prompts/midday_scan.md` and cron `30 16 * * 1-5` (12:30pm ET).
-   *(Cron times are UTC and assume EDT; shift to `15 14` / `30 17` when EST returns in November.)*
-3. Service variables: `ANTHROPIC_API_KEY`, `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`.
-4. **Mount a volume at `/data`.** Claude Code config (`CLAUDE_CONFIG_DIR=/data/claude`) lives there so MCP auth survives redeploys.
-5. **One-time Robinhood OAuth:** MCP auth is per-machine and interactive. `railway ssh` into the service, run `claude` → `/mcp` → complete the Robinhood OAuth, confirm with a quote pull, exit. The token persists on the volume.
-   *If the ssh/OAuth dance proves brittle, a $5 VPS with plain cron is the honest fallback — same scripts, zero container ceremony.*
-6. Until OAuth is done, runs fail loudly to Telegram instead of trading. Nothing silent.
-
-### Local / VPS alternative
+## Verify the build (no secrets needed)
 
 ```bash
-npm install -g @anthropic-ai/claude-code && claude   # log in
-claude mcp add --transport http robinhood https://agent.robinhood.com/mcp/trading
-# then: claude → /mcp → OAuth, verify with a quote pull
-cp .executor.env.example ~/.executor.env             # fill in Telegram secrets
-./scripts/preflight.sh
-crontab -e
-#  15 9  * * 1-5  cd /path/to/executor-infra && ./scripts/morning_pulse.sh >> state/pulse.log 2>&1
-#  30 12 * * 1-5  cd /path/to/executor-infra && ./scripts/morning_pulse.sh prompts/midday_scan.md >> state/pulse.log 2>&1
+python3 -m engine.tests.test_engine   # 27 cases: settlement law, gates, signals
+python3 scripts/test_risk_check.py    # discretionary gate self-test
 ```
 
-## Moving this to its own repo
+## Deploy (Railway always-on worker)
 
-This directory is fully self-contained — nothing in it references the parent repo. Once an empty `executor-infra` repo exists on GitHub (and the Claude GitHub app has access, so the agent can push):
+1. Push to `main` — `railway.json` converts the service from cron to always-on
+   (`cronSchedule: null`, restart ON_FAILURE, no overlap). Confirm in the dashboard
+   that the service shows continuous uptime and **serverless/app-sleep is OFF**.
+2. Service variables: `ANTHROPIC_API_KEY`, `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`.
+   Optional first week: `EXECUTOR_DRY_RUN=1` (live path simulates fills; everything
+   else real — good for validating plumbing before real orders).
+3. Volume mounted at `/data` (carries MCP OAuth + the book across deploys).
+4. One-time: `railway ssh` → `claude` → `/mcp` → complete Robinhood OAuth → quote
+   pull to verify → exit.
+5. Watch Telegram: engine-online message, then pre-market brief next trading day.
 
-```bash
-git subtree split --prefix=executor-infra -b executor-standalone
-git push git@github.com:MambaMercurial/executor-infra.git executor-standalone:main
-```
+Local dev: `pip3 install -r requirements.txt && python3 -m engine.daemon` (env vars
+as above; `EXECUTOR_DRY_RUN=1` recommended).
 
-## Open items
+## Ops truths
 
-- [ ] **Complete the Robinhood investor-profile questionnaire** — this currently blocks trade #2 on the agentic account.
-- [ ] Create the standalone `executor-infra` GitHub repo + grant the Claude GitHub app access, then run the subtree split above.
-- [ ] Stand up the Railway project (two cron services + volume + one-time OAuth).
-- [ ] First funded pipeline: run the midday scan manually once and load 2–3 candidates.
-
-## Division of labor
-
-- **This repo is the eyes** — daily pulses, alerts, one-tap approvals, journaling.
-- **The Claude.ai project is the brain** — deep underwriting, weekly review, edge tracking, charter amendments.
-- Same charter, two surfaces. When the charter changes in one place, change it in both.
+- Every deploy restarts the daemon (SIGTERM-safe; state on the volume).
+- The engine never trades blind: no quotes → no signals; broker is reconciled every
+  pre-market; drift is journaled.
+- Costs: ~$5/mo Railway + ~$4–8/trading day of capped LLM runs. At $200 the infra
+  outcosts the account — this is an R&D build whose assets (telemetry, discipline,
+  the machine itself) compound when capital does.
 
 ---
 
-*Not financial advice. The honest expected outcome of a max-aggression micro-account is loss of principal. The rails exist to make ruin structurally hard, not to promise returns.*
+*Not financial advice. The honest expected outcome of a micro account remains loss of principal; the rails exist to make ruin structurally impossible while the system earns the right to scale.*

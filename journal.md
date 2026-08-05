@@ -39,3 +39,19 @@ event, watchlist), mega-cap equipment names (no pitch at current levels). Propos
 $13** (entry 211 / stop 184 / target 300, max loss $1.66 = 0.84%, 3.3:1) — post-
 earnings washout reversal, event risk behind. Both risk_check PASS (0 logged trades →
 size suppressed). Awaiting operator YES/NO. All numbers computed via python3.
+
+## 2026-08-05 — CHARTER v4.0: full autonomy. The baby-Medallion build.
+Operator directive: remove the human approval gate entirely; run continuously and
+autonomously; maximize trade throughput toward compounding. Three research agents
+deployed (cash-account mechanics, strategy evidence, Medallion ops) — findings in
+docs/05_RESEARCH_NOTES.md. Built: always-on two-loop engine (deterministic Python
+fast loop: signals/gates/ledger/breakers; capped LLM slow loop: reconcile, measure,
+underwrite). Human gate replaced by five coded brakes + adversarial-skeptic second
+gate for discretionary trades + Telegram veto channel (HALT/RESUME/FLAT/STATUS).
+Books: meanrev (paper), tom (paper), discretionary (2-gate). PEAD researched and
+rejected (dead since ~2006). Ledger encodes Robinhood cash law: settled-cash-only
+buys → GFVs structurally impossible; bankroll cycles 1x/business day. Graduation:
+paper proves implementation (≥20 clean events), live sizing assumes edge=0; kill
+criteria pre-registered; LLM may de-risk, never up-risk. Equity floor $150 hard.
+27/27 engine self-tests green. Pending t004 (CEG, earnings-gated) and t005 (POWL)
+now route through the premarket two-gate path instead of Telegram approval.
