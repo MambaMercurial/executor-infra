@@ -40,3 +40,20 @@ Does NOT transfer, do not cosplay: the edge itself (microstructure/order-flow at
 
 - Railway cron: 5-min minimum, skips overlapping runs, never kills hung runs → wrong tool. Always-on worker: `restartPolicyType: ON_FAILURE` + `restartPolicyMaxRetries`, `drainingSeconds: 60`, `overlapSeconds: 0` (two live instances = duplicate orders), single replica, no HTTP healthcheck for a pure worker. Handle SIGTERM (done). Hobby plan ≈ $5/mo flat for a small worker.
 - NYSE 2026 remainder: closed Sep 7, Nov 26, Dec 25; early close 1pm Nov 27, Dec 24. (July 3 was an early close, not a holiday — calendar corrected.)
+
+## F. Crypto sweep (2026-08-05, fourth research agent)
+
+**The cost bar:** Robinhood crypto gross take rate ~57bps per side (Q1'26, rising) → plan ~100bps round trip on BTC/ETH, 150–300bps on alts, up to 500bps on small caps in volatile tape. Every academic crypto backtest assumes 4–20bps — a 10–25x gap that kills almost everything.
+
+| Strategy | Verdict |
+|---|---|
+| **BTC slow trend (weekly, banded, long/flat)** | **VIABLE — the only survivor.** OOS-validated 2022–24 (20d breakout best; MA-cross variants). 3–8 RT/yr means the per-trade edge dwarfs the toll. Honest net: +5–15%/yr risk-adjusted; real payoff is drawdown truncation (−80% → −25/35%). Currently FLAT by rule — BTC ~45% off its Oct-2025 high, which is the strategy working. |
+| Vol-targeted sizing overlay | Viable as sizing layer only (no alpha; makes the 3%-day rule mechanical) |
+| On-chain MVRV-Z throttle | Marginal — n≈4 cycles; coarse throttle only |
+| Cross-sectional alt momentum | DEAD — alt spreads + 12-coin universe |
+| Short-term mean reversion | DEAD — gross edge < round-trip cost, deteriorated OOS even gross |
+| Calendar/time-of-day | DEAD — 250%+/yr cost drag; unstable post-ETF |
+
+**Sizing law (stress-day math):** BTC single-day stress −15/20% → max BTC position = 3%/20% = 15% of account (~$30); crypto sleeve cap 15–20%. **Dollar honesty:** ~$3–4/yr expected on that sleeve — infrastructure/learning position, not P&L.
+
+**Implementation:** `engine/signals/btctrend.py`, paper-only (`live_alloc: 0` — deliberate double-lock: no crypto execution built, account not crypto-enabled). Paper models the full 100bps spread. Kill criteria per spec: realized RT cost >1.5% over 4 fills; >10 flips/12mo; trails buy-and-hold >15pts over 24mo with deeper DD.

@@ -1,7 +1,7 @@
 {
   "poll_seconds": 90,
-  "universe": ["SPY", "QQQ", "IWM", "SMH", "XLE", "XLV", "XLU", "CEG", "VST", "NRG", "POWL", "GEV", "ETN", "PWR", "CCJ", "TLN"],
-  "spread_bps": {"default": 6, "SPY": 2, "QQQ": 2, "POWL": 15, "TLN": 12, "GEV": 8, "CCJ": 8},
+  "universe": ["SPY", "QQQ", "IWM", "SMH", "XLE", "XLV", "XLU", "CEG", "VST", "NRG", "POWL", "GEV", "ETN", "PWR", "CCJ", "TLN", "BTC-USD"],
+  "spread_bps": {"default": 6, "SPY": 2, "QQQ": 2, "POWL": 15, "TLN": 12, "GEV": 8, "CCJ": 8, "BTC-USD": 100},
   "account_number": "692261530",
   "books": {
     "meanrev": {
@@ -39,6 +39,24 @@
         "entry_window_et": ["15:30", "15:55"]
       },
       "evidence_prior": "Turn-of-the-month on S&P: last ~2 trading days through first ~3 of next month. Only calendar effect still statistically significant in 1980-2024 samples; ~65% win, honest 20-50bps net per monthly window. 12 events/yr - runs on the 45-year prior, not on live sample."
+    },
+    "btctrend": {
+      "live": false,
+      "paper_start_cash": 500.0,
+      "paper_notional": 30.0,
+      "live_notional": 0.0,
+      "live_alloc": 0.0,
+      "max_open": 1,
+      "params": {
+        "symbol": "BTC-USD",
+        "breakout_days": 20,
+        "sma_slow": 100,
+        "sma_fast": 40,
+        "stop_pct": 0.20,
+        "eval_dow": 0,
+        "entry_window_et": ["11:00", "13:00"]
+      },
+      "evidence_prior": "BTC slow trend, long/flat, weekly banded (enter: 20d breakout AND >100-SMA; exit: <100-SMA AND <40-SMA): only crypto strategy clearing Robinhood's ~100bps round-trip spread. OOS-validated 2022-2024 (Quantpedia MAX/breakout; Grayscale MA-cross; Zarattini et al. net-of-fees). 3-8 RT/yr; payoff is drawdown truncation more than alpha. Sized by stress-day math: BTC can drop 15-20% in a day, so max sleeve 15% of account. live_alloc=0 is deliberate - crypto execution not built and account not crypto-enabled; paper measures until both exist. Paper models the FULL 100bps spread so measured expectancy is net of the real toll."
     }
   },
   "graduation": {

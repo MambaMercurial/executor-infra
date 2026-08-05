@@ -28,7 +28,7 @@ from zoneinfo import ZoneInfo
 from . import ledger as ledger_mod
 from . import notify, quotes, risk
 from .paper import PaperBook
-from .signals import meanrev, tom
+from .signals import btctrend, meanrev, tom
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 STATE = os.path.join(ROOT, "state")
@@ -158,6 +158,8 @@ def flatten_live(led, prices, es, why):
 def _exit_reason(book, sym, meta_or_pos, last, age_days, ts, history, params):
     if book == "meanrev":
         return meanrev.exit_signal(sym, history.get(sym, []), last, meta_or_pos["entry"], age_days, params)
+    if book == "btctrend":
+        return btctrend.exit_signal(ts.date(), history.get(sym, []), last, meta_or_pos["entry"], params)
     opened = datetime.fromisoformat(meta_or_pos["opened"]).astimezone(ET).date()
     return tom.exit_signal(ts.date(), opened, set(CONFIG["holidays_2026"]), params, last, meta_or_pos["entry"])
 
@@ -203,6 +205,11 @@ def process_book(book, cfg, pb, led, es, prices, history, ts):
             if sig:
                 candidates.append(sig)
         candidates.sort(key=lambda s: s["z"])  # deepest dislocation first
+    elif book == "btctrend":
+        sig = btctrend.entry_signal(ts.date(), history.get(params["symbol"], []),
+                                    prices.get(params["symbol"]), params)
+        if sig:
+            candidates.append(sig)
     else:  # tom
         sig = tom.entry_signal(ts.date(), set(CONFIG["holidays_2026"]), params,
                                prices.get(params["symbol"]))

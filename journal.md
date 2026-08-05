@@ -55,3 +55,12 @@ paper proves implementation (≥20 clean events), live sizing assumes edge=0; ki
 criteria pre-registered; LLM may de-risk, never up-risk. Equity floor $150 hard.
 27/27 engine self-tests green. Pending t004 (CEG, earnings-gated) and t005 (POWL)
 now route through the premarket two-gate path instead of Telegram approval.
+
+## 2026-08-05 (cont) — crypto research verdict + btctrend paper book
+Fourth research agent: Robinhood crypto costs ~100bps RT (BTC) kill everything
+fast; sole survivor = slow long/flat BTC trend (weekly banded, 3–8 RT/yr).
+Shipped as paper-only book `btctrend` ($30 notional, full 100bps modeled spread,
+live_alloc=0 double-lock — no crypto execution path exists and account is not
+crypto-enabled yet). Currently flat by rule (BTC ~45% off highs). Alt momentum,
+crypto mean reversion, calendar effects: dead at these spreads — journaled so
+nobody resurrects them without new evidence. Engine tests 33/33.

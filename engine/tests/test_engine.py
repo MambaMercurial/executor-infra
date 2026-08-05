@@ -12,7 +12,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspa
 from engine.ledger import Ledger, next_business_day
 from engine import risk
 from engine.paper import PaperBook
-from engine.signals import meanrev, tom
+from engine.signals import btctrend, meanrev, tom
 
 HOLIDAYS = ["2026-09-07"]
 PASSED = []
@@ -119,6 +119,23 @@ def main():
                           {"symbol": "SPY", "exit_trading_day_of_month": 3, "stop_pct": 0.05,
                            "entry_days_before_eom": 2}, 630.0, 629.0)
     check("TOM exits on 3rd trading day of new month", why == "tom_exit")
+
+    bp = cfg["books"]["btctrend"]["params"]
+    up = [50000.0 + 120.0 * i for i in range(140)]
+    monday, tuesday = date(2026, 8, 10), date(2026, 8, 11)
+    check("btctrend enters on Monday breakout above 100-SMA",
+          btctrend.entry_signal(monday, up, up[-1] * 1.01, bp) is not None)
+    check("btctrend silent on non-evaluation days",
+          btctrend.entry_signal(tuesday, up, up[-1] * 1.01, bp) is None)
+    check("btctrend silent below breakout high",
+          btctrend.entry_signal(monday, up, up[-1] * 0.99, bp) is None)
+    down = [120000.0 - 400.0 * i for i in range(140)]
+    check("btctrend trend-exit when below both SMAs (weekly)",
+          btctrend.exit_signal(monday, down, down[-1] * 0.98, down[-1] * 1.2, bp) == "trend_exit")
+    check("btctrend disaster stop fires any day",
+          btctrend.exit_signal(tuesday, up, 40000.0, 60000.0, bp) == "disaster_stop")
+    check("btctrend live blocked by zero allocation",
+          cfg["books"]["btctrend"]["live_alloc"] == 0.0 and cfg["books"]["btctrend"]["live"] is False)
 
     n_fail = sum(1 for _, ok in PASSED if not ok)
     print(f"\n{len(PASSED) - n_fail}/{len(PASSED)} engine self-test cases passed")
