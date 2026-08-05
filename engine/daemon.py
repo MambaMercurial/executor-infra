@@ -343,7 +343,10 @@ def main():
                     history, history_ts = h, time.time()
 
             equity = round(led.total_cash() + led.position_value(prices), 2)
-            if es["day_start_equity"] is None:
+            # `not` (not `is None`): a 0.0 captured while the ledger was
+            # unseeded must be re-anchored, else the day-loss breakers divide
+            # against zero-or-skip and stay dead for the day.
+            if not es["day_start_equity"]:
                 es["day_start_equity"] = equity
             es["peak_equity"] = max(es.get("peak_equity") or equity, equity)
 
