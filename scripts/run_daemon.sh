@@ -14,6 +14,14 @@ if [ -d /data ]; then
   mkdir -p /data/executor
   for p in state journal.md; do
     [ -e "/data/executor/$p" ] || cp -r "$p" "/data/executor/$p"
+  done
+  # Repo-shipped proposals must reach an ALREADY-seeded volume too (no-clobber:
+  # the volume's copy wins if it exists — it may carry verdicts/execution marks).
+  if [ ! -L state ] && [ -d state/pending ]; then
+    mkdir -p /data/executor/state/pending
+    cp -n state/pending/*.json /data/executor/state/pending/ 2>/dev/null || true
+  fi
+  for p in state journal.md; do
     rm -rf "$p"
     ln -s "/data/executor/$p" "$p"
   done
