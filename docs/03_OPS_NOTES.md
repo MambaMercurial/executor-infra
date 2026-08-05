@@ -45,3 +45,15 @@ Selling shares purchased with unsettled funds risks a **good-faith violation**. 
 - `flock` prevents overlapping pulse runs.
 - Telegram approvals are accepted **only from your chat ID**. Replies from anyone else are ignored.
 - `risk_check.py` ships with `test_risk_check.py` — run it after ANY change to the gate. The gate is the load-bearing wall.
+
+## Railway state model (important)
+The container filesystem is ephemeral. `railway_pulse.sh` keeps `state/` and
+`journal.md` on the `/data` volume (symlinked in on each run); the copies baked into
+the image only seed the volume on its very first run. Consequences:
+- Proposals committed to git reach Railway **only if the volume hasn't been seeded
+  yet**. If the volume already exists, sync by hand: `railway ssh` →
+  `cp /app/state/pending/*.json /data/executor/state/pending/`.
+- **Known gap:** Railway runs do not push their state/journal updates back to git,
+  so the repo's book lags the volume's book. Fix candidate: give the service a
+  GITHUB_TOKEN and have the pulse commit state back with a `[skip railway]` message.
+  Until then, the volume is canonical; the repo is the seed + audit of proposals.

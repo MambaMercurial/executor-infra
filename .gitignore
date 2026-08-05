@@ -8,9 +8,8 @@ state/pulse.log
 state/last_pulse.json
 state/.pulse.lock
 
-# Live trade proposals are operational state, not source. The directory is tracked
-# (via .gitkeep) but the proposals inside it are not.
-state/pending/*.json
+# Live trade proposals ARE tracked: they're the audit trail, and on Railway the
+# repo image seeds the /data volume — untracked proposals would never reach the box.
 
 # Python
 __pycache__/

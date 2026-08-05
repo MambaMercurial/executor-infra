@@ -1,0 +1,22 @@
+{
+  "id": "t004",
+  "symbol": "CEG",
+  "sleeve": "core",
+  "side": "buy",
+  "notional": 50.00,
+  "entry": 270.0,
+  "stop": 250.0,
+  "target": 320.0,
+  "max_loss": 3.70,
+  "thesis": "Constellation: largest US nuclear fleet = the cleanest cash-flowing expression of the physical AI power bottleneck. 35% off highs, ~24x PE, beat 5 of last 6 quarters. Mechanism: hyperscaler PPA repricing of nuclear baseload; we are WITH the flow. Reverse-DCF: price implies ~mid-teens EPS growth — believable given Q1'26 beat and PPA pipeline. Circularity: demand is grid load + PPA cash from hyperscaler opex, largely outside the AI vendor-financing loop. Bear case: power price mean-reversion, nuclear outage, regulatory clawback of PPA economics; leading indicators = forward power curves, capacity auction results.",
+  "condition": "EARNINGS GATE: Q2 report 2026-08-06 am. Do NOT approve before the print. Re-check entry vs price after; if gap >5% from 270, re-underwrite instead of chasing.",
+  "committee": {
+    "buffett": "PASS — regulated-adjacent moat (nuclear licenses), real FCF, margin of safety at 35% off highs",
+    "li_lu": "PASS — fat-pitch zone only post-earnings; hence the entry condition",
+    "munger_inversion": "PASS — blowup = earnings gap through stop; mitigated by waiting for the print",
+    "burry": "PASS — max loss $3.70 (1.86%), asymmetry 2.5:1, contrarian vs crowded semis",
+    "simons": "PASS — post-drawdown entry in uptrending sector is a repeatable setup",
+    "taleb": "PASS — capped downside via stop, convex to power-price repricing",
+    "forensic_skeptic": "PASS — short case is valuation vs growth, not accounting; PPA revenue is contracted cash"
+  }
+}
