@@ -35,13 +35,13 @@ The LLM is **never** in the fast loop. This is both a cost decision (a Claude ca
 
 | Run | Model | Cap | Frequency |
 |---|---|---|---|
-| Pre-market | default | $2.00 / 40 turns | each trading day |
-| Post-market | default | $2.00 / 40 turns | each trading day |
-| Weekly review | default | $3.00 / 50 turns | Fridays |
+| Pre-market | default | $1.50 / 35 turns | each trading day |
+| Post-market | default | $1.50 / 35 turns | each trading day |
+| Weekly review | default | $2.50 / 45 turns | Fridays |
 | Execution bridge | haiku | $0.40 / 12 turns | per live order (≤6/day) |
 | Skeptic | default | $0.75 / 15 turns | per discretionary proposal |
 
-Worst-case trading day ≈ $7–8; typical ≈ $4–5. The daemon itself costs nothing between polls.
+Worst-case trading day ≈ $6; typical ≈ $3–4. Fits a $100/mo org spend limit with headroom (~$80 worst-case month); the operator console cap is the final backstop. The daemon itself costs nothing between polls.
 
 ## Failure posture
 

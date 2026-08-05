@@ -314,7 +314,7 @@ def main():
                 if ts.strftime("%H:%M") >= pm and not es["runs_done"].get("premarket"):
                     es["runs_done"]["premarket"] = True
                     save_engine_state(es)
-                    run_claude("prompts/premarket.md", 2.00, 40, "premarket")
+                    run_claude("prompts/premarket.md", 1.50, 35, "premarket")
                     led = ledger_mod.Ledger(holidays=CONFIG["holidays_2026"])  # reload post-reconcile
                 po = CONFIG["runs"]["postmarket_et"]
                 if ts.strftime("%H:%M") >= po and not es["runs_done"].get("postmarket"):
@@ -326,9 +326,9 @@ def main():
                             notify.send(f"🎓 {n} GRADUATED to live (stats: {json.dumps(b.stats())}). "
                                         f"Starts at ${CONFIG['books'][n]['live_notional']:.0f}/trade.")
                     save_engine_state(es)
-                    run_claude("prompts/postmarket.md", 2.00, 40, "postmarket")
+                    run_claude("prompts/postmarket.md", 1.50, 35, "postmarket")
                     if ts.weekday() == CONFIG["runs"]["weekly_dow"]:
-                        run_claude("prompts/weekly_review.md", 3.00, 50, "weekly")
+                        run_claude("prompts/weekly_review.md", 2.50, 45, "weekly")
 
             if not market_open(ts):
                 save_engine_state(es)
