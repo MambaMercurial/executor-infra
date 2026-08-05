@@ -28,3 +28,14 @@ July queued orders were cancelled pre-fill, so logged_trades reset to 0 and sizi
 suppressed. Railway deploy layer added (Dockerfile, railway.json, railway_pulse.sh).
 Open blockers: investor-profile questionnaire (blocks trade #2), standalone repo split,
 Railway OAuth one-timer.
+
+## 2026-08-04 (late) — first hunt run: pipeline loaded
+Screened the physical-bottleneck universe (VST, CEG, TLN, NRG, GEV, ETN, PWR, HUBB,
+POWL, CCJ). Killed: NRG (−15.5% to a new 52wk low on unexplained earnings damage +
+Vivint retail-beta exposure → risk-regime exclusion), VST (reports 8/7 am — binary
+event, watchlist), mega-cap equipment names (no pitch at current levels). Proposed:
+**t004 CEG core $50** (entry 270 / stop 250 / target 320, max loss $3.70 = 1.86%,
+2.5:1) — EARNINGS-GATED: do not approve before the 8/6 am print. **t005 POWL moonshot
+$13** (entry 211 / stop 184 / target 300, max loss $1.66 = 0.84%, 3.3:1) — post-
+earnings washout reversal, event risk behind. Both risk_check PASS (0 logged trades →
+size suppressed). Awaiting operator YES/NO. All numbers computed via python3.
