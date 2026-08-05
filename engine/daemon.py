@@ -240,6 +240,21 @@ def main():
     for d in (OUTBOX, RESULTS, os.path.join(STATE, "paper"), os.path.join(STATE, "pending")):
         os.makedirs(d, exist_ok=True)
     led = ledger_mod.Ledger(holidays=CONFIG["holidays_2026"])
+    # Bootstrap seed: an empty ledger reads $0 equity and (correctly) trips the
+    # floor gate on everything. Seed from positions.json — last broker-verified
+    # snapshot — so the engine is never blind; the premarket reconcile trues it
+    # against the live broker every trading day.
+    if not led.data["cash_lots"] and not led.data["positions"]:
+        try:
+            pos = json.load(open(os.path.join(STATE, "positions.json")))
+            seed = float(pos.get("dry_powder") or pos.get("account_value") or 0)
+            if seed > 0:
+                led.seed_cash(seed, now_et().date())
+                led.save()
+                notify.send(f"🌱 Ledger seeded ${seed:.2f} settled from positions.json "
+                            "(premarket reconcile will true against the broker)")
+        except Exception:
+            pass
     es = load_engine_state()
     books = {name: PaperBook(name, cfg["paper_start_cash"], CONFIG["spread_bps"])
              for name, cfg in CONFIG["books"].items()}
