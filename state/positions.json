@@ -4,7 +4,7 @@
   "day_start_value": 198.74,
   "core_sleeve_value": 158.99,
   "moonshot_sleeve_value": 39.75,
-  "dry_powder": 185.74,
+  "dry_powder": 135.74,
   "logged_trades": 0,
   "positions": [
     {
@@ -12,14 +12,28 @@
       "symbol": "POWL",
       "sleeve": "moonshot",
       "notional": 13.0,
-      "entry_ref": 206.01,
-      "qty_est": 0.0631,
+      "entry_ref": 206.29,
+      "qty_est": 0.063018,
       "stop": 184.0,
       "target": 300.0,
       "thesis": "Post-earnings washout reversal; backlog $2.4B +69% YoY, book-to-bill 3.0x",
       "opened": "2026-08-06",
-      "status": "queued_at_open",
+      "status": "filled",
       "order_id": "6a7487a1-af8d-4bd8-b989-e1b4086712e3"
+    },
+    {
+      "id": "t004",
+      "symbol": "CEG",
+      "sleeve": "core",
+      "notional": 50.0,
+      "entry_ref": 265.79,
+      "qty_est": 0.188118,
+      "stop": 250.0,
+      "target": 320.0,
+      "thesis": "Nuclear fleet = AI power bottleneck; Q2 beat $2.55/$2.37 + FY guide raise + 920MW non-AI PPAs",
+      "opened": "2026-08-06",
+      "status": "filled",
+      "order_id": "6a7492f6-8604-4eb2-9bf1-7f7a89af778f"
     }
   ],
   "note": "Book verified flat against live portfolio 2026-08-04: $198.74 cash, $0 equity, $0 unsettled. The three 2026-07-02 queued orders (BRK.B, XLV, GDX) were cancelled before execution and never count as logged trades. Sleeve values are the 80/20 barbell split of account_value."

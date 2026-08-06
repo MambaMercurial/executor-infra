@@ -83,3 +83,15 @@ an explicitly named instrument; ambiguous authorization language gets a
 clarifying question, never an order. Context: operator's request for OAuth help
 was misread as trade authorization; gates held and operator ratified, but the
 misparse is logged as the defect it is.
+
+## 2026-08-06 09:58 ET — t004 CEG FILLED (autonomous two-gate execution)
+Q2 print: $2.55 vs $2.37 est (+7.6%, 6th beat in 7q) + FY guidance RAISED to
+$11.50-12.50 + 920MW new 15-20yr investment-grade PPAs (incl Walmart/Dresden —
+demand from OUTSIDE the AI loop; circularity check strengthened). Price flat
+post-print at $265 = in-band, 1.9% below entry ref; no chase. risk_check PASS;
+skeptic CONCUR (recomputed max loss at fill $2.83 = 1.42%, asymmetry 3.7:1;
+flagged: capacity factor 93.0 vs 94.8 YoY, revenue light — bear indicators live
+but mild). FILLED 0.188118 sh @ $265.79, $50.00, ~7bps slippage, zero fees.
+Book now: POWL $13 moonshot (filled 206.29, now ~211) + CEG $50 core. Dry
+powder ~$135.74 settled. Both discretionary pipeline trades executed within 28
+minutes of their respective gates opening. The machine is trading.

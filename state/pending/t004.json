@@ -3,20 +3,30 @@
   "symbol": "CEG",
   "sleeve": "core",
   "side": "buy",
-  "notional": 50.00,
+  "notional": 50.0,
   "entry": 270.0,
   "stop": 250.0,
   "target": 320.0,
-  "max_loss": 3.70,
-  "thesis": "Constellation: largest US nuclear fleet = the cleanest cash-flowing expression of the physical AI power bottleneck. 35% off highs, ~24x PE, beat 5 of last 6 quarters. Mechanism: hyperscaler PPA repricing of nuclear baseload; we are WITH the flow. Reverse-DCF: price implies ~mid-teens EPS growth — believable given Q1'26 beat and PPA pipeline. Circularity: demand is grid load + PPA cash from hyperscaler opex, largely outside the AI vendor-financing loop. Bear case: power price mean-reversion, nuclear outage, regulatory clawback of PPA economics; leading indicators = forward power curves, capacity auction results.",
+  "max_loss": 3.7,
+  "thesis": "Constellation: largest US nuclear fleet = the cleanest cash-flowing expression of the physical AI power bottleneck. 35% off highs, ~24x PE, beat 5 of last 6 quarters. Mechanism: hyperscaler PPA repricing of nuclear baseload; we are WITH the flow. Reverse-DCF: price implies ~mid-teens EPS growth \u2014 believable given Q1'26 beat and PPA pipeline. Circularity: demand is grid load + PPA cash from hyperscaler opex, largely outside the AI vendor-financing loop. Bear case: power price mean-reversion, nuclear outage, regulatory clawback of PPA economics; leading indicators = forward power curves, capacity auction results.",
   "condition": "EARNINGS GATE: Q2 report 2026-08-06 am. Do NOT approve before the print. Re-check entry vs price after; if gap >5% from 270, re-underwrite instead of chasing.",
   "committee": {
-    "buffett": "PASS — regulated-adjacent moat (nuclear licenses), real FCF, margin of safety at 35% off highs",
-    "li_lu": "PASS — fat-pitch zone only post-earnings; hence the entry condition",
-    "munger_inversion": "PASS — blowup = earnings gap through stop; mitigated by waiting for the print",
-    "burry": "PASS — max loss $3.70 (1.86%), asymmetry 2.5:1, contrarian vs crowded semis",
-    "simons": "PASS — post-drawdown entry in uptrending sector is a repeatable setup",
-    "taleb": "PASS — capped downside via stop, convex to power-price repricing",
-    "forensic_skeptic": "PASS — short case is valuation vs growth, not accounting; PPA revenue is contracted cash"
+    "buffett": "PASS \u2014 regulated-adjacent moat (nuclear licenses), real FCF, margin of safety at 35% off highs",
+    "li_lu": "PASS \u2014 fat-pitch zone only post-earnings; hence the entry condition",
+    "munger_inversion": "PASS \u2014 blowup = earnings gap through stop; mitigated by waiting for the print",
+    "burry": "PASS \u2014 max loss $3.70 (1.86%), asymmetry 2.5:1, contrarian vs crowded semis",
+    "simons": "PASS \u2014 post-drawdown entry in uptrending sector is a repeatable setup",
+    "taleb": "PASS \u2014 capped downside via stop, convex to power-price repricing",
+    "forensic_skeptic": "PASS \u2014 short case is valuation vs growth, not accounting; PPA revenue is contracted cash"
+  },
+  "status": "EXECUTED",
+  "execution": {
+    "order_id": "6a7492f6-8604-4eb2-9bf1-7f7a89af778f",
+    "placed": "2026-08-06T13:58:14Z",
+    "filled": "2026-08-06T13:58:14Z",
+    "qty": 0.188118,
+    "avg_price": 265.79,
+    "via": "scheduled autonomous check-in, two-gate protocol (risk_check PASS + skeptic CONCUR on beat + guide-raise + 920MW non-AI PPAs)",
+    "max_loss_at_fill": 2.83
   }
 }
