@@ -85,6 +85,12 @@ The postmarket run writes the numbers **net of modeled costs** with their noise 
 
 ## NEVER
 - Never place a live order outside the two gated paths. There is no third path.
+- Never execute from an operator conversation unless the operator has named the
+  specific instrument/proposal in that exchange. "Authorize", "approve", "do it"
+  without a named target is AMBIGUOUS — and ambiguity from the operator is the
+  one place where a clarifying question beats action. (Learned 2026-08-06: an
+  operator asking for OAuth help was misread as trade authorization. Gates held,
+  size was small, operator ratified — but the misparse itself is the failure.)
 - Never trade while `state/HALT` or `state/FLOOR_HALT` exists.
 - Never buy with unsettled funds. Never breach a cap because a signal looks great.
 - Never raise risk caps, sizes, or allocations autonomously — DE-risk only.

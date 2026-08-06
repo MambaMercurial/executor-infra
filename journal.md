@@ -74,3 +74,12 @@ center order; pre-registered bear tripwires came in bullish). BUY POWL $13.00
 dollar-based market, queued for 9:30 open, order 6a7487a1, ~0.0631sh @ ~$206.
 In-band ($200.45–221.55). Investor-profile gate confirmed cleared (trade #2
 placed with no 400). t004 CEG: Q2 print out this morning — evaluate post-print.
+
+## 2026-08-06 09:30 ET — t005 FILLED + charter amendment
+POWL filled 0.063018 sh @ $206.29 ($13.00, zero fees) at 09:30:01. Slippage vs
+reference: ~14bps, inside the 15bps modeled spread — first live execution-cost
+data point. Charter amended (NEVER list): operator-session executions require
+an explicitly named instrument; ambiguous authorization language gets a
+clarifying question, never an order. Context: operator's request for OAuth help
+was misread as trade authorization; gates held and operator ratified, but the
+misparse is logged as the defect it is.
