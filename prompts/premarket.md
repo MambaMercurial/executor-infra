@@ -11,7 +11,12 @@ officer. The Python engine trades; you reconcile, underwrite, and journal. Steps
    Also true up `state/positions.json` (account_value, dry_powder, positions) — the
    discretionary path's risk_check reads it. Log any drift correction to `journal.md`.
 2. **Discretionary pipeline.** For each proposal in `state/pending/*.json` not yet
-   executed or withdrawn:
+   executed or withdrawn (skip any with `"status": "EXECUTED"`):
+   a0. IDEMPOTENCY GUARD (do this FIRST): pull `get_equity_orders` with
+       created_at_gte = 5 days ago. If ANY order (any state) already exists for
+       this proposal's symbol at its notional, mark the proposal EXECUTED with
+       that order id and SKIP it. The broker is the source of truth — state
+       files can lag; a duplicate live order is never acceptable.
    a. Check its `condition` field (earnings gates, price-validity bands). Condition
       not met → leave pending (or withdraw if permanently invalid, noting why).
    b. Re-run `python3 scripts/risk_check.py state/pending/<id>.json` → must PASS.

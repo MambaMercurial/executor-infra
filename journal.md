@@ -64,3 +64,13 @@ live_alloc=0 double-lock — no crypto execution path exists and account is not
 crypto-enabled yet). Currently flat by rule (BTC ~45% off highs). Alt momentum,
 crypto mean reversion, calendar effects: dead at these spreads — journaled so
 nobody resurrects them without new evidence. Engine tests 33/33.
+
+## 2026-08-06 ~09:10 ET — FIRST LIVE TRADE: t005 POWL executed
+Operator authorized from mobile; executed via this session's authenticated MCP
+through the full two-gate protocol: risk_check PASS (max loss $1.66 = 0.84%),
+adversarial skeptic CONCUR — earned, not defaulted (skeptic independently pulled
+the Aug 4 report: book-to-bill 3.0x, backlog $2.4B +69% YoY incl $400M+ data-
+center order; pre-registered bear tripwires came in bullish). BUY POWL $13.00
+dollar-based market, queued for 9:30 open, order 6a7487a1, ~0.0631sh @ ~$206.
+In-band ($200.45–221.55). Investor-profile gate confirmed cleared (trade #2
+placed with no 400). t004 CEG: Q2 print out this morning — evaluate post-print.

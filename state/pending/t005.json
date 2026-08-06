@@ -3,20 +3,28 @@
   "symbol": "POWL",
   "sleeve": "moonshot",
   "side": "buy",
-  "notional": 13.00,
+  "notional": 13.0,
   "entry": 211.0,
   "stop": 184.0,
   "target": 300.0,
   "max_loss": 1.66,
-  "thesis": "Powell Industries: custom switchgear + e-houses — direct physical-constraint play on data-center electrification, real earnings since 1947. Catalyst: post-earnings washout reversal — Aug 3 pm report missed by 3.4% ($1.42 vs $1.47), stock gapped to $191 Aug 4 and reversed all day to close $211.54 after a 35% de-rate from the May $328 high. Event risk is BEHIND us; the flush is the entry. Mechanism: forced de-rate of a momentum name meeting sticky demand backlog; we buy the capitulation, not the momentum. Bear case (pre-written): backlog growth stalls as data-center orders digest; margin compression on fixed-price contracts; 42x trailing PE re-rates to industrial norm ~20x = $100s. Leading indicators: next quarter backlog number, book-to-bill < 1.",
-  "condition": "Entry validity: only while price is within ~5% of 211. If it runs past 222 before approval, withdraw — no chasing.",
+  "thesis": "Powell Industries: custom switchgear + e-houses \u2014 direct physical-constraint play on data-center electrification, real earnings since 1947. Catalyst: post-earnings washout reversal \u2014 Aug 3 pm report missed by 3.4% ($1.42 vs $1.47), stock gapped to $191 Aug 4 and reversed all day to close $211.54 after a 35% de-rate from the May $328 high. Event risk is BEHIND us; the flush is the entry. Mechanism: forced de-rate of a momentum name meeting sticky demand backlog; we buy the capitulation, not the momentum. Bear case (pre-written): backlog growth stalls as data-center orders digest; margin compression on fixed-price contracts; 42x trailing PE re-rates to industrial norm ~20x = $100s. Leading indicators: next quarter backlog number, book-to-bill < 1.",
+  "condition": "Entry validity: only while price is within ~5% of 211. If it runs past 222 before approval, withdraw \u2014 no chasing.",
   "committee": {
-    "buffett": "N/A moonshot — outside strict competence circle, sized accordingly",
-    "li_lu": "PASS — waiting was done; the 35% de-rate + post-earnings flush IS the pitch",
-    "munger_inversion": "PASS — blowup = backlog stall + multiple compression; stop below both washout lows caps it",
-    "burry": "PASS — max loss $1.66 (0.84%), asymmetry 3.3:1, contrarian post-flush entry",
-    "simons": "PASS — post-earnings-capitulation reversal on elevated volume is a defined, repeatable setup",
-    "taleb": "PASS — classic convex shot: capped $1.66 downside, target retests prior range",
-    "forensic_skeptic": "PASS — 79-year-old manufacturer, real backlog, real dividends; short case is cyclical, not forensic"
+    "buffett": "N/A moonshot \u2014 outside strict competence circle, sized accordingly",
+    "li_lu": "PASS \u2014 waiting was done; the 35% de-rate + post-earnings flush IS the pitch",
+    "munger_inversion": "PASS \u2014 blowup = backlog stall + multiple compression; stop below both washout lows caps it",
+    "burry": "PASS \u2014 max loss $1.66 (0.84%), asymmetry 3.3:1, contrarian post-flush entry",
+    "simons": "PASS \u2014 post-earnings-capitulation reversal on elevated volume is a defined, repeatable setup",
+    "taleb": "PASS \u2014 classic convex shot: capped $1.66 downside, target retests prior range",
+    "forensic_skeptic": "PASS \u2014 79-year-old manufacturer, real backlog, real dividends; short case is cyclical, not forensic"
+  },
+  "status": "EXECUTED",
+  "execution": {
+    "order_id": "6a7487a1-af8d-4bd8-b989-e1b4086712e3",
+    "placed": "2026-08-06T13:09:53Z",
+    "via": "operator session, two-gate protocol (risk_check PASS + skeptic CONCUR)",
+    "est_qty": 0.0631,
+    "ref_price": 206.01
   }
 }
