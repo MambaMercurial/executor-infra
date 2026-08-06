@@ -35,6 +35,11 @@ MSG
 fi
 
 echo "== shipping auth to the volume (chunked, argv-safe) =="
+# railway ssh needs a local SSH key; generate a passphrase-less one if absent.
+if [ ! -f "$HOME/.ssh/id_ed25519" ] && [ ! -f "$HOME/.ssh/id_rsa" ]; then
+  echo "no SSH key found — generating one (~/.ssh/id_ed25519)"
+  ssh-keygen -t ed25519 -N "" -f "$HOME/.ssh/id_ed25519" -q || die "ssh-keygen"
+fi
 WORK="$(mktemp -d)"
 # Only the auth-critical files — not logs/caches/projects (that's what blew ARG_MAX).
 tar -C "$CLAUDE_CONFIG_DIR" -czf "$WORK/cfg.tgz" \
