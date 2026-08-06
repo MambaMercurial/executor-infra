@@ -9,6 +9,18 @@ cd "$(dirname "$0")/.."
 export CLAUDE_CONFIG_DIR="${CLAUDE_CONFIG_DIR:-/data/claude}"
 mkdir -p "$CLAUDE_CONFIG_DIR"
 
+# Auth via Railway variable (no ssh required): seed Claude/Robinhood auth from
+# CLAUDE_AUTH_B64 — but ONLY when credentials are absent, so runtime token
+# refreshes on the volume are never clobbered by a stale snapshot.
+if [ -n "${CLAUDE_AUTH_B64:-}" ] && [ ! -f "$CLAUDE_CONFIG_DIR/.credentials.json" ]; then
+  echo "seeding Claude auth from CLAUDE_AUTH_B64"
+  if echo "$CLAUDE_AUTH_B64" | base64 -d | tar -xzf - -C "$CLAUDE_CONFIG_DIR"; then
+    python3 scripts/telegram.py send "🔑 Robinhood auth seeded onto the volume from the Railway variable. Next premarket run verifies against the broker." || true
+  else
+    python3 scripts/telegram.py send "⚠️ Auth seed from CLAUDE_AUTH_B64 failed to unpack — tell the operator." || true
+  fi
+fi
+
 # Persist mutable state on the volume; image copies seed the first boot only.
 if [ -d /data ]; then
   mkdir -p /data/executor

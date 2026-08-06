@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# Robinhood MCP auth ONLY — verifies local auth (runs the interactive /mcp flow
-# only if needed), then ships the minimal auth bundle to the Railway volume in
-# argv-safe chunks. Rerunnable; completed steps skip themselves.
+# Robinhood MCP auth — PLAN C: ships the auth bundle to the container via a
+# Railway service VARIABLE (the channel that already works for the Telegram
+# tokens). No ssh, no keys, no chunks. Rerunnable; completed steps skip.
 # Run on YOUR machine: bash scripts/ship_oauth.sh
 set -uo pipefail
 die() { printf "\033[31mFAILED: %s\033[0m\n" "$1"; exit 1; }
@@ -34,33 +34,25 @@ MSG
   claude -p "$Q" --allowedTools "mcp__robinhood__*" | grep -E '[0-9]' || die "local verify — redo /mcp auth"
 fi
 
-echo "== shipping auth to the volume (chunked, argv-safe) =="
-# railway ssh needs a local SSH key; generate a passphrase-less one if absent.
-if [ ! -f "$HOME/.ssh/id_ed25519" ] && [ ! -f "$HOME/.ssh/id_rsa" ]; then
-  echo "no SSH key found — generating one (~/.ssh/id_ed25519)"
-  ssh-keygen -t ed25519 -N "" -f "$HOME/.ssh/id_ed25519" -q || die "ssh-keygen"
-fi
+echo "== packing minimal auth bundle =="
 WORK="$(mktemp -d)"
-# Only the auth-critical files — not logs/caches/projects (that's what blew ARG_MAX).
 tar -C "$CLAUDE_CONFIG_DIR" -czf "$WORK/cfg.tgz" \
   $(cd "$CLAUDE_CONFIG_DIR" && ls -d .credentials.json .claude.json settings.json 2>/dev/null || true)
 [ -s "$WORK/cfg.tgz" ] || tar -C "$CLAUDE_CONFIG_DIR" --exclude='./projects' \
   --exclude='./shell-snapshots' --exclude='./todos' --exclude='./statsig' \
   --exclude='./logs' --exclude='./cache' -czf "$WORK/cfg.tgz" .
-base64 < "$WORK/cfg.tgz" | tr -d '\n' > "$WORK/cfg.b64"
-split -b 40000 "$WORK/cfg.b64" "$WORK/chunk_"
-
-railway ssh -- bash -c "rm -f /tmp/rhcfg.b64" || die "railway ssh unreachable"
-for c in "$WORK"/chunk_*; do
-  railway ssh -- bash -c "printf '%s' '$(cat "$c")' >> /tmp/rhcfg.b64" \
-    || die "chunk transfer ($c) — rerun the script, it restarts the transfer cleanly"
-done
-railway ssh -- bash -c "mkdir -p /data/claude && base64 -d < /tmp/rhcfg.b64 > /tmp/rhcfg.tgz && tar -xzf /tmp/rhcfg.tgz -C /data/claude && rm -f /tmp/rhcfg.b64 /tmp/rhcfg.tgz && echo UNPACKED_OK" \
-  || die "remote unpack"
+B64="$(base64 < "$WORK/cfg.tgz" | tr -d '\n')"
 rm -rf "$WORK"
+echo "bundle size: ${#B64} chars (base64)"
+[ "${#B64}" -lt 200000 ] || die "auth bundle unexpectedly large — tell the agent"
 
-echo "== verifying FROM the container (the one that matters) =="
-railway ssh -- bash -c "cd /app && export CLAUDE_CONFIG_DIR=/data/claude && claude -p '$Q' --allowedTools 'mcp__robinhood__*'" \
-  || die "container verify"
+echo "== setting Railway variable (triggers redeploy) =="
+railway variables --set "CLAUDE_AUTH_B64=$B64" >/dev/null || die "railway variables --set"
 
-printf "\n\033[32mAUTH SHIPPED.\033[0m The engine is fully self-driving from the next premarket run.\n"
+printf "\n\033[32mAUTH SHIPPED (via Railway variable).\033[0m\n"
+cat <<'DONE'
+Railway is redeploying the service now. What to watch (no further action):
+  1. Telegram: "🟢 Executor engine online" (the redeploy boot)
+  2. Telegram: "🔑 Robinhood auth seeded onto the volume"  <- the win
+  3. Next premarket brief reads AUTHENTICATED and reconciles the real book.
+DONE
