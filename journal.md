@@ -95,3 +95,15 @@ but mild). FILLED 0.188118 sh @ $265.79, $50.00, ~7bps slippage, zero fees.
 Book now: POWL $13 moonshot (filled 206.29, now ~211) + CEG $50 core. Dry
 powder ~$135.74 settled. Both discretionary pipeline trades executed within 28
 minutes of their respective gates opening. The machine is trading.
+
+## 2026-08-07 ~09:10 ET — ARCHITECTURE AMENDMENT: broker layer moves to oversight session
+Transplanted container auth died overnight (worked 17:24 ET Thu — full reconcile,
+fill verification, in-model slippage; dead by Fri premarket). Root cause class:
+Robinhood binds OAuth sessions to device/rotating refresh tokens; snapshot
+transplants rot within hours. Decision: the container's broker auth is no longer
+load-bearing. A claude.ai oversight Routine (weekdays 9:50 ET, platform-managed
+auth, zero failures since inception) now owns: broker reconcile, stop/target
+enforcement via two-gate exits, discretionary pipeline execution w/ idempotency
+guard. Container keeps: fast loop, paper books, signals, Telegram briefs — and
+its prompts now treat unauthenticated-broker as EXPECTED, with a standing ban on
+asking the operator to re-auth. Operator action required going forward: none.

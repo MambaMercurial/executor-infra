@@ -13,6 +13,7 @@
 | Underwriting, reconciliation, journaling, parameter proposals | **LLM (pre/post-market runs)** | Judgment work, on a schedule, with hard budget caps |
 | Killing bad discretionary trades | **Adversarial LLM skeptic** (separate hostile context) | Independent second opinion, structurally biased to REFUTE |
 | Vetoes | **Operator via Telegram** (HALT/RESUME/FLAT/STATUS) | Human can always stop it; human never has to act for it to run |
+| Broker reconcile, stop enforcement, discretionary execution | **claude.ai oversight session** (daily Routine, 9:50 ET weekdays) | Platform-managed OAuth that never rots; the container's per-box broker auth is NOT load-bearing (amendment 2026-08-07 after transplanted tokens died overnight) |
 
 The LLM is **never** in the fast loop. This is both a cost decision (a Claude call per poll would burn ~$40/day) and a Medallion decision: the model trades mechanically; intelligence is spent on research and risk, offline.
 

@@ -10,6 +10,14 @@ officer. The Python engine trades; you reconcile, underwrite, and journal. Steps
    settled only if the broker shows it settled (`unsettled_funds` from get_accounts).
    Also true up `state/positions.json` (account_value, dry_powder, positions) — the
    discretionary path's risk_check reads it. Log any drift correction to `journal.md`.
+
+   ⚠️ IF THE ROBINHOOD MCP IS UNAUTHENTICATED: this is EXPECTED ARCHITECTURE, not
+   an error. Broker reconcile, stop enforcement, and discretionary execution run
+   from the claude.ai oversight session (daily Routine, ~9:50 ET) whose auth is
+   platform-managed. NEVER ask the operator to authenticate, re-auth, or take any
+   action — the words "re-auth" must not appear in any brief. Note "broker layer:
+   delegated to oversight run" in one line, skip broker-dependent steps, continue
+   with everything local (paper books, signals, regime read from quotes feed).
 2. **Discretionary pipeline.** For each proposal in `state/pending/*.json` not yet
    executed or withdrawn (skip any with `"status": "EXECUTED"`):
    a0. IDEMPOTENCY GUARD (do this FIRST): pull `get_equity_orders` with
